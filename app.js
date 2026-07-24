@@ -105,9 +105,9 @@ function initStars() {
       const amb = n===3||Math.random()<0.12;
       el.style.cssText = `
         position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;
-        background:${amb?`rgba(212,139,58,${op})`:`rgba(255,240,220,${op})`};
+        background:${amb?`rgba(138,90,25,${op})`:`rgba(184,123,46,${op})`};
         left:${Math.random()*100}%;top:${Math.random()*100}%;
-        ${amb?`box-shadow:0 0 ${sz*3}px rgba(212,139,58,0.4);`:""}
+        ${amb?`box-shadow:0 0 ${sz*3}px rgba(138,90,25,0.6);`:""}
         animation:twinkle ${2.5+Math.random()*5}s ease-in-out ${Math.random()*6}s infinite alternate;
       `;
       layer.appendChild(el);
