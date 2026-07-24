@@ -60,11 +60,20 @@
                     <label for="settings-name">Tên / Biệt danh</label>
                     <input type="text" id="settings-name" placeholder="Tên của bạn...">
                 </div>
-                <div class="field-group">
-                    <label for="settings-dob">Ngày sinh</label>
-                    <input type="date" id="settings-dob">
+                    <div class="field-group">
+                        <label for="settings-dob">Ngày sinh</label>
+                        <input type="date" id="settings-dob">
+                    </div>
+                    <div class="field-group">
+                        <label>Giới Tính</label>
+                        <select id="settings-gender" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(212,139,58,0.22); border-radius:6px; color:#FFF4E8; font-family:'Outfit',sans-serif; font-size:0.95rem; font-weight:300; padding:0.75rem 1rem; outline:none; -webkit-appearance:none;">
+                            <option value="Không rõ">Không rõ</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
             <div class="tab-content" id="tab-api">
                 <p class="modal-desc">Nhập Gemini API Key để bật <strong>AI Enhanced Reading</strong>.</p>
                 <div class="field-group">
