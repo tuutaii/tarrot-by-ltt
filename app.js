@@ -5,27 +5,55 @@
    • Card lightbox on click
    ============================================================ */
 
-// ── SPREAD POSITIONS ─────────────────────────────────────────
-const POSITIONS = [
-  { num:"I",   label:"Năng Lượng Hiện Tại", desc:"Trạng thái & năng lượng của bạn lúc này",         prompt:"Năng lượng hiện tại của người dùng trong vấn đề này là gì?" },
-  { num:"II",  label:"Gốc Rễ Quá Khứ",     desc:"Nguyên nhân sâu xa từ quá khứ",                    prompt:"Gốc rễ / nguyên nhân sâu xa từ quá khứ dẫn đến tình trạng hiện tại." },
-  { num:"III", label:"Bóng Tối Ẩn Giấu",   desc:"Điều bạn chưa nhìn nhận rõ ràng",                  prompt:"Điều người dùng đang vô tình che giấu hoặc chưa nhìn nhận rõ ràng." },
-  { num:"IV",  label:"Thử Thách",           desc:"Trở ngại lớn nhất phải đối mặt",                   prompt:"Thử thách / chướng ngại lớn nhất người dùng phải đối mặt lúc này." },
-  { num:"V",   label:"Lời Khuyên",          desc:"Hành động nên thực hiện ngay",                     prompt:"Lời khuyên / hành động người dùng nên thực hiện ngay để cải thiện tình huống." },
-  { num:"VI",  label:"Kết Quả Tiềm Năng",  desc:"Điều có thể xảy ra nếu bạn hành động đúng đắn",   prompt:"Kết quả tiềm năng nếu người dùng áp dụng lời khuyên trên." },
-];
+// ── SPREADS CONFIGURATION ──────────────────────────────────────
+const SPREADS = {
+  "3-card": {
+    id: "3-card", name: "Quá Khứ - Hiện Tại - Tương Lai", drawCount: 3, cssClass: "layout-3",
+    positions: [
+      { num:"I",   label:"Quá Khứ",   desc:"Sự kiện, nguyên nhân trong quá khứ", prompt:"Sự kiện, nguyên nhân gốc rễ trong quá khứ ảnh hưởng đến vấn đề này." },
+      { num:"II",  label:"Hiện Tại",  desc:"Tình huống, cảm xúc hiện tại",      prompt:"Tình huống, cảm xúc hiện tại và năng lượng lúc này." },
+      { num:"III", label:"Tương Lai", desc:"Kết quả dự kiến nếu tiếp tục",      prompt:"Kết quả dự kiến hoặc hướng đi trong tương lai nếu mọi thứ tiếp diễn." }
+    ]
+  },
+  "6-card": {
+    id: "6-card", name: "Chân Dung Vấn Đề", drawCount: 6, cssClass: "layout-6",
+    positions: [
+      { num:"I",   label:"Năng Lượng Hiện Tại", desc:"Trạng thái & năng lượng của bạn lúc này",       prompt:"Năng lượng hiện tại của người dùng trong vấn đề này." },
+      { num:"II",  label:"Gốc Rễ Quá Khứ",     desc:"Nguyên nhân sâu xa từ quá khứ",                  prompt:"Gốc rễ nguyên nhân sâu xa từ quá khứ." },
+      { num:"III", label:"Bóng Tối Ẩn Giấu",   desc:"Điều bạn chưa nhìn nhận rõ ràng",                prompt:"Điều người dùng đang che giấu hoặc chưa nhìn nhận rõ." },
+      { num:"IV",  label:"Thử Thách",           desc:"Trở ngại lớn nhất phải đối mặt",                 prompt:"Thử thách chướng ngại lớn nhất hiện tại." },
+      { num:"V",   label:"Lời Khuyên",          desc:"Hành động nên thực hiện ngay",                   prompt:"Lời khuyên hành động nên thực hiện ngay." },
+      { num:"VI",  label:"Kết Quả Tiềm Năng",  desc:"Điều có thể xảy ra nếu hành động đúng đắn",      prompt:"Kết quả tiềm năng nếu áp dụng lời khuyên." }
+    ]
+  },
+  "10-card": {
+    id: "10-card", name: "Celtic Cross", drawCount: 10, cssClass: "layout-10",
+    positions: [
+      { num:"I",   label:"Hiện Tại",        desc:"Bản thân vấn đề hoặc trạng thái hiện tại", prompt:"Trạng thái hiện tại của vấn đề." },
+      { num:"II",  label:"Thử Thách",       desc:"Yếu tố cản trở (Lá bài cắt ngang)",        prompt:"Yếu tố chướng ngại vật đang cản trở." },
+      { num:"III", label:"Nền Tảng",        desc:"Nguyên nhân tiềm thức sâu xa",             prompt:"Nguyên nhân sâu xa trong tiềm thức." },
+      { num:"IV",  label:"Quá Khứ Gần",     desc:"Sự kiện vừa xảy ra ảnh hưởng",             prompt:"Sự kiện quá khứ gần đây tác động đến hiện tại." },
+      { num:"V",   label:"Mục Tiêu",        desc:"Điều bạn đang hướng tới/suy nghĩ",         prompt:"Điều người dùng đang kỳ vọng hoặc lý trí đang hướng tới." },
+      { num:"VI",  label:"Tương Lai Gần",   desc:"Điều sắp xảy ra tiếp theo",                prompt:"Diễn biến sắp tới trong tương lai gần." },
+      { num:"VII", label:"Bản Thân",        desc:"Thái độ, cách nhìn nhận của bạn",          prompt:"Thái độ, phản ứng của bản thân với tình huống." },
+      { num:"VIII",label:"Môi Trường",      desc:"Tác động từ người khác/hoàn cảnh",         prompt:"Ảnh hưởng từ hoàn cảnh bên ngoài và người khác." },
+      { num:"IX",  label:"Hy Vọng & Sợ Hãi",desc:"Niềm hy vọng và nỗi lo lắng",              prompt:"Hy vọng và nỗi lo sợ của người dùng." },
+      { num:"X",   label:"Kết Quả",         desc:"Cái kết nếu mọi thứ diễn ra tự nhiên",     prompt:"Kết quả tổng thể của toàn bộ quá trình." }
+    ]
+  }
+};
 
-// ── CONSTANTS ────────────────────────────────────────────────
 const DATA_URL    = "https://raw.githubusercontent.com/jordantwells42/tarot/master/public/tarot-images.json";
 const IMG_BASE    = "https://raw.githubusercontent.com/jordantwells42/tarot/master/public/cards/";
 const STORAGE_KEY = "mystic_tarot_profile";
-const DRAW_COUNT  = 6;
 
 // ── STATE ────────────────────────────────────────────────────
 let tarotData       = null;
+let shuffledDeck    = []; // tarotData shuffled once when deck is built
 let selectedIdxs    = [];
 let drawnCards      = [];
-let userInfo        = { name: "", dob: "", gender: "Không rõ", topic: "Tình yêu", intent: "" };
+let userInfo        = { name: "", dob: "", gender: "Không rõ", topic: "Tình yêu", spread: "6-card", intent: "" };
+let currentSpread   = SPREADS["6-card"];
 let geminiKey       = "";
 let soundEnabled    = true;
 let audioCtx        = null;
@@ -51,16 +79,17 @@ const userNameInput = $("user-name");
 const dobInput      = $("dob");
 const intentInput   = $("intent");
 const topicPills    = document.querySelectorAll("#topic-pills .pill");
+const spreadPills   = document.querySelectorAll("#spread-pills .pill");
 const genderPills   = document.querySelectorAll("#gender-pills .pill");
 const startBtn      = $("start-btn");
 
+const drawCounter   = $("draw-counter");
 const shuffleIntro  = $("shuffle-intro");
 const shuffleBtn    = $("shuffle-btn");
 const spreadPreview = $("spread-preview");
 const spreadSlots   = $("spread-slots");
 const deckContainer = $("deck-container");
-const progressPips  = document.querySelectorAll("#progress-pips .pip");
-const drawCounter   = $("draw-counter");
+const carouselRing  = $("carousel-ring");
 const revealBtn     = $("reveal-btn");
 
 const resultTitle     = $("result-title");
@@ -123,81 +152,43 @@ function getAudio() {
   return audioCtx;
 }
 
-// Soft sine with smooth attack/release envelope — no clicks
-function softTone(freq, dur, vol=0.06, attack=0.04, delay=0) {
+// Paper rustling sound synthesizer
+function paperSound(dur, freq, vol) {
   if (!soundEnabled) return;
   try {
-    const ctx  = getAudio();
-    const osc  = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
-    gain.gain.setValueAtTime(0, ctx.currentTime + delay);
-    gain.gain.linearRampToValueAtTime(vol, ctx.currentTime + delay + attack);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + delay + dur);
-    osc.start(ctx.currentTime + delay);
-    osc.stop(ctx.currentTime + delay + dur + 0.01);
-  } catch(e) {}
-}
-
-// Crystal bowl: sine + slight frequency shimmer (very ambient)
-function crystalBowl(freq, vol=0.07, delay=0) {
-  softTone(freq,      1.2, vol,     0.08, delay);
-  softTone(freq*2.01, 0.8, vol*0.4, 0.1,  delay+0.02); // subtle overtone
-}
-
-// sfxHover: barely audible high sine, like distant wind chime
-function sfxHover() {
-  softTone(1318, 0.18, 0.025, 0.03);
-}
-
-// sfxSelect: crystal triad — soft, ascending, ethereal
-function sfxSelect() {
-  crystalBowl(523.25, 0.055, 0);
-  crystalBowl(659.25, 0.04,  0.12);
-  crystalBowl(783.99, 0.035, 0.26);
-}
-
-// sfxShuffle: soft white-noise simulation via rapid detuned sines
-function sfxShuffle() {
-  if (!soundEnabled) return;
-  try {
-    const ctx  = getAudio();
-    const buf  = ctx.createBuffer(1, ctx.sampleRate*0.4, ctx.sampleRate);
+    const ctx = getAudio();
+    const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
     const data = buf.getChannelData(0);
-    for (let i=0; i<data.length; i++) data[i] = (Math.random()*2-1) * 0.04;
-    const src  = ctx.createBufferSource();
-    const filt = ctx.createBiquadFilter();
-    const gain = ctx.createGain();
-    filt.type = "bandpass"; filt.frequency.value = 2000; filt.Q.value = 0.5;
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * vol;
+    
+    const src = ctx.createBufferSource();
     src.buffer = buf;
-    src.connect(filt); filt.connect(gain); gain.connect(ctx.destination);
+    
+    const filt = ctx.createBiquadFilter();
+    filt.type = "bandpass";
+    filt.frequency.value = freq;
+    filt.Q.value = 1.0;
+    
+    const gain = ctx.createGain();
+    src.connect(filt);
+    filt.connect(gain);
+    gain.connect(ctx.destination);
+    
     gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime+0.05);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.35);
-    src.start(); src.stop(ctx.currentTime+0.4);
+    gain.gain.linearRampToValueAtTime(1, ctx.currentTime + dur * 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + dur * 0.9);
+    
+    src.start();
+    src.stop(ctx.currentTime + dur);
   } catch(e) {}
 }
 
-// sfxTransition: soft pentatonic ascend
-function sfxTransition() {
-  const notes = [392, 493.88, 587.33, 783.99];
-  notes.forEach((f,i) => softTone(f, 0.7, 0.055, 0.06, i*0.1));
-}
-
-// sfxFlip: single soft crystal tap
-function sfxFlip() {
-  softTone(880, 0.25, 0.04, 0.02);
-  softTone(1108.73, 0.2, 0.025, 0.025, 0.03);
-}
-
-// sfxChime: pentatonic crystal bowl chord — warm, ambient
-function sfxChime() {
-  const notes = [523.25, 659.25, 783.99, 1046.5];
-  notes.forEach((f,i) => crystalBowl(f, 0.055-i*0.008, i*0.18));
-}
+function sfxHover() { paperSound(0.1, 4000, 0.05); }
+function sfxSelect() { paperSound(0.2, 2000, 0.15); }
+function sfxShuffle() { paperSound(0.5, 1500, 0.2); }
+function sfxTransition() { paperSound(0.3, 1000, 0.1); }
+function sfxFlip() { paperSound(0.25, 1200, 0.2); }
+function sfxChime() { paperSound(0.6, 800, 0.15); }
 
 // ================================================================
 //  PROFILE
@@ -211,6 +202,11 @@ function loadProfile() {
     if (d.dob)    { userInfo.dob=d.dob;   dobInput.value=d.dob;       settingsDob.value=d.dob;  }
     if (d.gender) { userInfo.gender=d.gender; settingsGender.value=d.gender; setGenderPill(d.gender); }
     if (d.topic)  { userInfo.topic=d.topic; setActivePill(d.topic); }
+    if (d.spread) { 
+      userInfo.spread=d.spread; 
+      currentSpread = SPREADS[d.spread] || SPREADS["6-card"];
+      spreadPills.forEach(p => p.classList.toggle("active", p.dataset.value===d.spread));
+    }
     if (d.geminiKey)          { geminiKey=d.geminiKey; apiKeyInput.value=d.geminiKey; }
     if (d.soundEnabled!=null) { soundEnabled=d.soundEnabled; soundToggle.checked=soundEnabled; }
   } catch(e) {}
@@ -218,7 +214,7 @@ function loadProfile() {
 function saveProfile() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      name:userInfo.name, dob:userInfo.dob, gender:userInfo.gender, topic:userInfo.topic, geminiKey, soundEnabled
+      name:userInfo.name, dob:userInfo.dob, gender:userInfo.gender, topic:userInfo.topic, spread:userInfo.spread, geminiKey, soundEnabled
     }));
   } catch(e) {}
 }
@@ -247,6 +243,13 @@ saveSettings.addEventListener("click", () => {
   saveProfile(); settingsModal.classList.add("hidden");
   updateAiGenArea(); showToast("✦ Đã lưu cài đặt");
 });
+// Synchronize inputs real-time between Step 1 and Settings
+userNameInput.addEventListener("input", e => settingsName.value = e.target.value);
+dobInput.addEventListener("input", e => settingsDob.value = e.target.value);
+settingsName.addEventListener("input", e => userNameInput.value = e.target.value);
+settingsDob.addEventListener("input", e => dobInput.value = e.target.value);
+settingsGender.addEventListener("change", e => setGenderPill(e.target.value));
+
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -265,11 +268,19 @@ topicPills.forEach(pill => {
     pill.classList.add("active"); userInfo.topic=pill.dataset.value; sfxHover();
   });
 });
+spreadPills.forEach(pill => {
+  pill.addEventListener("click", () => {
+    spreadPills.forEach(p => p.classList.remove("active"));
+    pill.classList.add("active"); userInfo.spread=pill.dataset.value; sfxHover();
+  });
+});
 if (genderPills) {
   genderPills.forEach(pill => {
     pill.addEventListener("click", () => {
       genderPills.forEach(p => p.classList.remove("active"));
-      pill.classList.add("active"); userInfo.gender=pill.dataset.value; sfxHover();
+      pill.classList.add("active"); userInfo.gender=pill.dataset.value; 
+      settingsGender.value = pill.dataset.value; // Sync to settings
+      sfxHover();
     });
   });
 }
@@ -278,32 +289,195 @@ startBtn.addEventListener("click", () => {
   userInfo.name   = userNameInput.value.trim();
   userInfo.dob    = dobInput.value;
   userInfo.intent = intentInput.value.trim() || "Xin lời khuyên tổng quan";
-  saveProfile(); sfxTransition(); goToStep(2); resetStep2();
+  
+  if (!userInfo.spread) userInfo.spread = "6-card";
+  currentSpread = SPREADS[userInfo.spread] || SPREADS["6-card"];
+
+  saveProfile(); sfxTransition();
+  showWelcomeCeremony();
 });
+
+// ================================================================
+//  CEREMONY 1.1 — Welcome Overlay (typewriter greeting)
+// ================================================================
+function showWelcomeCeremony() {
+  const overlay   = document.getElementById("welcome-overlay");
+  const textEl    = document.getElementById("welcome-line");
+  const readyBtn  = document.getElementById("welcome-ready-btn");
+  
+  overlay.classList.remove("hidden");
+  readyBtn.classList.add("hidden");
+
+  const name = userInfo.name || "người bạn";
+  const numerology = userInfo.dob
+    ? (() => {
+        const digits = userInfo.dob.replace(/\D/g,"").split("").map(Number);
+        let s = digits.reduce((a,b)=>a+b,0);
+        while (s > 9 && s !== 11 && s !== 22) s = String(s).split("").map(Number).reduce((a,b)=>a+b,0);
+        return s;
+      })()
+    : null;
+
+  const lines = [
+    `Xin chào, ${name}...`,
+    `Vũ trụ đã nghe tiếng gọi của bạn...`,
+    numerology
+      ? `Hôm nay, con số định mệnh ${numerology} đang đồng hành cùng bạn...`
+      : `Năng lượng hôm nay đang hội tụ về phía bạn...`,
+    `Hãy để tâm trí lắng xuống, và những lá bài sẽ lên tiếng...`,
+  ];
+
+  let lineIdx = 0;
+  function typeNextLine() {
+    if (lineIdx >= lines.length) {
+      setTimeout(() => readyBtn.classList.remove("hidden"), 400);
+      return;
+    }
+    typewriterEffect(textEl, lines[lineIdx], 38, () => {
+      lineIdx++;
+      setTimeout(typeNextLine, 1200);
+    });
+  }
+  setTimeout(typeNextLine, 400);
+
+  document.getElementById("welcome-ready-btn").onclick = () => {
+    overlay.classList.add("hidden");
+    goToStep(2);
+    resetStep2();
+    startBreathLock();
+  };
+  
+  document.getElementById("welcome-skip-btn").onclick = () => {
+    overlay.classList.add("hidden");
+    goToStep(2);
+    resetStep2();
+    startBreathLock();
+  };
+}
+
+function typewriterEffect(el, text, speed, onDone) {
+  el.textContent = "";
+  let i = 0;
+  const tick = () => {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      setTimeout(tick, speed);
+    } else if (onDone) {
+      onDone();
+    }
+  };
+  tick();
+}
+
+// ================================================================
+//  CEREMONY 1.2 — Breathing Lock before shuffle
+// ================================================================
+function startBreathLock() {
+  const overlay   = document.getElementById("breath-overlay");
+  const countEl   = document.getElementById("breath-count");
+  const textEl    = document.getElementById("breath-text");
+  const shuffleBtn= document.getElementById("shuffle-btn");
+  
+  const breathMsgs = [
+    "Hít vào thật chậm... giữ câu hỏi trong lòng...",
+    "Thở ra nhẹ nhàng... để tâm trí trống rỗng...",
+    "Một lần nữa... bạn đang kết nối với vũ trụ...",
+  ];
+
+  overlay.classList.remove("hidden");
+  shuffleBtn.disabled = true;
+  let count = 3;
+
+  let breathTimeout;
+  const tick = () => {
+    countEl.textContent = count;
+    textEl.textContent  = breathMsgs[3 - count];
+    paperSound(0.4, 600, 0.04);
+    if (count <= 0) {
+      breathTimeout = setTimeout(() => {
+        overlay.classList.add("hidden");
+        shuffleBtn.disabled = false;
+        startFocusTicker();
+      }, 1000);
+      return;
+    }
+    count--;
+    breathTimeout = setTimeout(tick, 4000);
+  };
+  tick();
+
+  document.getElementById("breath-skip-btn").onclick = () => {
+    clearTimeout(breathTimeout);
+    overlay.classList.add("hidden");
+    shuffleBtn.disabled = false;
+    startFocusTicker();
+  };
+}
+
+// ================================================================
+//  CEREMONY 2.2 — Focus Ticker during shuffle wait
+// ================================================================
+const FOCUS_MSGS = [
+  "Hãy nghĩ về điều bạn thực sự muốn hỏi...",
+  "Tập trung vào cảm xúc của bạn lúc này...",
+  "Vũ trụ đang sắp xếp những lá bài dành cho bạn...",
+  "Hãy để trực giác dẫn đường — đừng suy nghĩ nhiều...",
+  "Hít thở sâu... bộ bài đang lắng nghe...",
+  "Niềm tin của bạn chính là chìa khóa...",
+];
+let _tickerInterval = null;
+function startFocusTicker() {
+  const el = document.getElementById("shuffle-ticker");
+  if (!el) return;
+  let i = 0;
+  clearInterval(_tickerInterval);
+  el.textContent = FOCUS_MSGS[0];
+  _tickerInterval = setInterval(() => {
+    i = (i + 1) % FOCUS_MSGS.length;
+    el.textContent = FOCUS_MSGS[i];
+  }, 4000);
+}
+function stopFocusTicker() { clearInterval(_tickerInterval); }
+
 
 // ================================================================
 //  STEP 2: SHUFFLE FLOW
 // ================================================================
 function resetStep2() {
   selectedIdxs=[]; deckReady=false;
-  updateCounter(); progressPips.forEach(p=>p.classList.remove("done"));
+  
+  // Dynamic pips
+  const pipsContainer = document.getElementById("progress-pips");
+  if(pipsContainer) {
+    pipsContainer.innerHTML = "";
+    for(let i=0; i<currentSpread.drawCount; i++) {
+      const pip = document.createElement("div");
+      pip.className = "pip";
+      pipsContainer.appendChild(pip);
+    }
+  }
+
+  updateCounter();
   shuffleIntro.classList.remove("hidden");
   spreadPreview.classList.add("hidden");
   deckContainer.classList.add("hidden");
-  deckContainer.innerHTML="";
+  carouselRing.innerHTML = "";
+  carouselRing.style.transform = "rotateY(0deg)";
   revealBtn.classList.add("hidden");
   buildSpreadSlots();
 }
 function buildSpreadSlots() {
+  spreadSlots.className="spread-slots";
   spreadSlots.innerHTML="";
-  POSITIONS.forEach((pos,i) => {
+  currentSpread.positions.forEach((pos,i) => {
     const slot=document.createElement("div");
     slot.className="spread-slot"; slot.id="slot-"+i;
+    if(i===0) slot.classList.add("active");
     slot.innerHTML=`<div class="slot-num">${pos.num}</div><div class="slot-name">${pos.label}</div><span class="slot-check">✓</span>`;
     spreadSlots.appendChild(slot);
   });
 }
-shuffleBtn.addEventListener("click", () => { sfxShuffle(); animateShuffle(); });
+shuffleBtn.addEventListener("click", () => { stopFocusTicker(); sfxShuffle(); animateShuffle(); });
 
 function animateShuffle() {
   const pile  = $("deck-pile");
@@ -332,34 +506,197 @@ function afterShuffle() {
     deckReady=true; buildDeck();
   }, 440);
 }
+// ================================================================
+//  3D CAROUSEL LOGIC
+// ================================================================
+let carouselAngle = 0;
+let carouselRAF = null;
+let carouselSpeed = 0.15;
+let isHoveringCard = false;
+let isAnimatingFly = false;
+let userScrollVelocity = 0;
+
+function rotateCarousel() {
+  if (!deckReady) return;
+  // Slow down if hovering or flying a card, unless user is scrolling
+  let targetSpeed = (isHoveringCard || isAnimatingFly) ? 0.02 : 0.15;
+  
+  if (Math.abs(userScrollVelocity) > 0.1) {
+    targetSpeed = userScrollVelocity;
+    // apply friction
+    userScrollVelocity *= 0.95;
+  }
+  
+  carouselSpeed += (targetSpeed - carouselSpeed) * 0.1;
+  carouselAngle += carouselSpeed;
+  
+  if (carouselRing) {
+    carouselRing.style.transform = `rotateY(${carouselAngle}deg)`;
+  }
+  carouselRAF = requestAnimationFrame(rotateCarousel);
+}
+
 function buildDeck() {
-  deckContainer.innerHTML="";
-  for (let i=0; i<78; i++) {
-    const card=document.createElement("div");
-    card.className="card-back"; card.dataset.index=i;
-    const rot=(Math.random()-0.5)*7;
-    card.style.setProperty("--base-transform",`rotate(${rot}deg)`);
-    card.style.transform=`rotate(${rot}deg)`;
-    card.style.animationDelay=(i*7)+"ms";
-    card.addEventListener("mouseenter",()=>{ if(!card.classList.contains("selected")) sfxHover(); });
-    card.addEventListener("click",()=>selectCard(card,i));
-    deckContainer.appendChild(card);
+  carouselRing.innerHTML = "";
+  cancelAnimationFrame(carouselRAF);
+  carouselAngle = 0;
+
+  // Calculate radius based on screen width
+  const isMobile = window.innerWidth <= 600;
+  const radius = isMobile ? 400 : 750;
+
+  shuffledDeck = [...tarotData].sort(() => 0.5 - Math.random());
+  for (let i = 0; i < 78; i++) {
+    const card = document.createElement("div");
+    card.className = "card-back";
+    card.dataset.index = i;
+    
+    // Distribute cards evenly in a circle
+    const angle = (360 / 78) * i;
+    card.style.setProperty("--base-transform", `rotateY(${angle}deg) translateZ(${radius}px)`);
+    card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+    card.style.animationDelay = (i * 7) + "ms";
+    
+    card.addEventListener("mouseenter", () => {
+      if (!card.classList.contains("selected")) {
+        sfxHover();
+        isHoveringCard = true;
+      }
+    });
+    card.addEventListener("mouseleave", () => {
+      isHoveringCard = false;
+    });
+    card.addEventListener("click", () => selectCard(card, i, angle, radius));
+    
+    carouselRing.appendChild(card);
+  }
+
+  // Start rotation loop
+  carouselRAF = requestAnimationFrame(rotateCarousel);
+}
+
+function selectCard(el, idx, cardAngle, radius) {
+  if (!deckReady || selectedIdxs.length >= currentSpread.drawCount || el.classList.contains("selected") || isAnimatingFly) return;
+  
+  el.classList.add("selected");
+  selectedIdxs.push(idx);
+  sfxSelect();
+  const n = selectedIdxs.length;
+  
+  const dynamicPips = document.querySelectorAll("#progress-pips .pip");
+  if (dynamicPips[n - 1]) dynamicPips[n - 1].classList.add("done");
+  
+  const slot = $("slot-" + (n - 1));
+  const nextSlot = $("slot-" + n);
+  
+  if (slot) {
+    isAnimatingFly = true;
+
+    // Create a clone to animate, leave original in carousel but hidden
+    const clone = el.cloneNode(true);
+    const rect = el.getBoundingClientRect();
+    const slotRect = slot.getBoundingClientRect();
+    
+    // Hide original
+    el.style.animation = "none";
+    el.style.opacity = "0";
+    el.style.pointerEvents = "none";
+    
+    document.body.appendChild(clone);
+    clone.style.position = "fixed";
+    clone.style.margin = "0";
+    clone.style.zIndex = "9999";
+    clone.style.animation = "none";
+    clone.style.transition = "none";
+    
+    // Snap to exact center of the screen bounds
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    clone.style.left = (centerX - 25) + "px"; // 25 is half of 50px width
+    clone.style.top = (centerY - 42) + "px";  // 42 is half of 84px height
+    clone.style.width = "50px";
+    clone.style.height = "84px";
+    clone.style.transform = "none"; // reset 3D rotation of the clone
+    
+    // Force reflow
+    void clone.offsetWidth;
+    
+    // Calculate target center of slot
+    const targetWidth = 50;
+    const targetHeight = 84;
+    const targetLeft = slotRect.left + (slotRect.width - targetWidth) / 2;
+    const targetTop = slotRect.top + (slotRect.height - targetHeight) / 2;
+
+    // Animate to slot
+    clone.style.transition = "all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)";
+    clone.style.left = targetLeft + "px";
+    clone.style.top = targetTop + "px";
+    clone.style.width = targetWidth + "px";
+    clone.style.height = targetHeight + "px";
+    clone.style.transform = "rotateY(180deg) scale(0.8)"; 
+    clone.style.opacity = "0";
+
+    setTimeout(() => {
+      slot.classList.remove("active");
+      slot.classList.add("filled");
+      slot.classList.add("pinging");
+      setTimeout(() => slot.classList.remove("pinging"), 300);
+      
+      if (nextSlot) nextSlot.classList.add("active");
+      clone.remove(); // cleanup flying clone
+      isAnimatingFly = false;
+      
+      updateCounter();
+      if (n === currentSpread.drawCount) {
+        setTimeout(() => {
+          revealBtn.classList.remove("hidden");
+          sfxChime();
+        }, 300);
+      }
+    }, 600);
   }
 }
-function selectCard(el,idx) {
-  if (!deckReady||selectedIdxs.length>=DRAW_COUNT||el.classList.contains("selected")) return;
-  el.classList.add("selected"); selectedIdxs.push(idx); sfxSelect();
-  const n=selectedIdxs.length;
-  if (progressPips[n-1]) progressPips[n-1].classList.add("done");
-  const slot=$("slot-"+(n-1)); if(slot) slot.classList.add("filled");
-  updateCounter();
-  if (n===DRAW_COUNT) setTimeout(()=>{ revealBtn.classList.remove("hidden"); sfxChime(); },300);
-}
+
+// Add mouse wheel support for manual carousel rotation
+deckContainer.addEventListener("wheel", (e) => {
+  if (!deckReady || isAnimatingFly) return;
+  e.preventDefault();
+  // Map vertical or horizontal scroll to rotation velocity
+  const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
+  userScrollVelocity = delta * 0.02;
+}, { passive: false });
+
+// Add touch support for mobile swiping
+let touchStartX = 0;
+deckContainer.addEventListener("touchstart", (e) => {
+  if (!deckReady || isAnimatingFly) return;
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
+deckContainer.addEventListener("touchmove", (e) => {
+  if (!deckReady || isAnimatingFly) return;
+  const delta = touchStartX - e.touches[0].clientX;
+  userScrollVelocity = delta * 0.1; // sensitivity
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
 function updateCounter() {
-  const left=DRAW_COUNT-selectedIdxs.length;
+  const left=currentSpread.drawCount-selectedIdxs.length;
   drawCounter.textContent=left>0?left:"✓";
 }
-revealBtn.addEventListener("click",()=>{ sfxTransition(); goToStep(3); prepareReading(); });
+revealBtn.addEventListener("click", () => {
+  sfxTransition();
+  const overlay = document.getElementById("breathe-overlay");
+  overlay.classList.remove("hidden");
+  
+  // Tĩnh lặng 3 giây
+  setTimeout(() => {
+    overlay.classList.add("hidden");
+    goToStep(3);
+    prepareReading();
+  }, 3000);
+});
 
 // ================================================================
 //  STEP 3: READING
@@ -370,8 +707,8 @@ function prepareReading() {
   resultTitle.textContent=`Dành Cho ${name}`;
   userInfoSummary.textContent=`${userInfo.topic} · "${userInfo.intent}"`;
 
-  const shuffled=[...tarotData].sort(()=>0.5-Math.random());
-  drawnCards=shuffled.slice(0,DRAW_COUNT).map(c=>({...c,isReversed:Math.random()>0.5}));
+  // Use the cards the user actually selected from shuffledDeck
+  drawnCards = selectedIdxs.map(idx => ({ ...shuffledDeck[idx], isReversed: Math.random() > 0.5 }));
 
   renderSpread();
   // Reset reading tabs
@@ -383,7 +720,7 @@ function prepareReading() {
   updateAiGenArea();
 
   // Generate standard reading after cards flip
-  setTimeout(generateStandardReading, DRAW_COUNT*350+800);
+  setTimeout(generateStandardReading, currentSpread.drawCount*350+800);
 }
 
 function updateAiGenArea() {
@@ -435,33 +772,76 @@ function switchReadPane(pane) {
   readingAi.classList.toggle("hidden",       pane!=="ai");
 }
 
-// Standard reading (always shown first)
+// Standard reading (always shown first) with typewriter card-by-card reveal
 function generateStandardReading() {
-  const name=userInfo.name||"Bạn";
-  let html=`<h3>✦ Thông Điệp Dành Cho ${name}</h3>
-  <p>Luận giải 6 lá bài theo trải bài <em>Chân Dung Vấn Đề</em> trong chủ đề <strong>${userInfo.topic}</strong>.</p>`;
-  drawnCards.forEach((card,i)=>{
-    const pos=POSITIONS[i];
-    const meanings=card.isReversed?card.meanings.shadow:card.meanings.light;
-    const fortune=card.fortune_telling?card.fortune_telling.slice(0,2).join(". "):"";
-    html+=`
-      <h3>${pos.num}. ${pos.label} — ${card.name}${card.isReversed?" (Ngược)":""}</h3>
-      <p><em>${pos.desc}</em></p>
-      <p><strong>Từ khóa:</strong> ${card.keywords?card.keywords.join(", "):""}</p>
-      <p>${meanings?meanings.slice(0,3).join(". ")+".":""} ${fortune}</p>
-    `;
+  const name = userInfo.name || "Bạn";
+  readingStandard.innerHTML = "";
+  sfxChime();
+
+  // Header appears immediately
+  const header = document.createElement("div");
+  header.innerHTML = `<h3>✦ Thông Điệp Dành Cho ${name}</h3>
+    <p>Luận giải ${currentSpread.drawCount} lá bài theo trải bài <em>${currentSpread.name}</em> trong chủ đề <strong>${userInfo.topic}</strong>.</p>`;
+  header.style.animation = "fadeInUp 0.6s ease both";
+  readingStandard.appendChild(header);
+
+  // Reveal each card block with stagger delay + typewriter on the summary text
+  drawnCards.forEach((card, i) => {
+    const pos      = currentSpread.positions[i];
+    const meanings = card.isReversed ? card.meanings.shadow : card.meanings.light;
+    const fortune  = card.fortune_telling ? card.fortune_telling.slice(0,2).join(". ") : "";
+    const summary  = (meanings ? meanings.slice(0,2).join(". ") + "." : "") + (fortune ? " " + fortune : "");
+
+    setTimeout(() => {
+      const block = document.createElement("div");
+      block.className = "reading-card-block";
+      block.style.animation = "fadeInUp 0.5s ease both";
+      block.innerHTML = `
+        <h3>${pos.num}. ${pos.label} — ${card.name}${card.isReversed ? " (Ngược)" : ""}</h3>
+        <p><em>${pos.desc}</em></p>
+        ${card.isReversed ? `<p class="reversed-note">Lá bài ngược — năng lượng có thể đang ách tắc hoặc cần hướng vào bên trong.</p>` : ""}
+        <p><strong>Từ khóa:</strong> ${card.keywords ? card.keywords.join(", ") : ""}</p>
+        <p class="reading-summary" id="rsummary-${i}"></p>
+      `;
+      readingStandard.appendChild(block);
+      const summaryEl = document.getElementById(`rsummary-${i}`);
+      typewriterEffect(summaryEl, summary, 22, null);
+    }, i * 800);
   });
-  html+=`<h3>✦ Đúc Kết & Lời Nhắn</h3>
-  <p>6 lá bài vừa rồi vẽ nên bức chân dung rõ nét về hành trình của bạn trong lĩnh vực <strong>${userInfo.topic}</strong>.
-  Vũ trụ khuyên bạn lắng nghe trực giác, hành động theo lời khuyên ở lá <strong>V</strong>, và tin tưởng vào tiềm năng lá <strong>VI</strong> đã chỉ ra. Bạn có sức mạnh để thay đổi — chúc bình an.</p>`;
-  readingStandard.innerHTML=html; sfxChime();
+
+  // Closing mantra after all cards revealed
+  const outCard = drawnCards[drawnCards.length - 1];
+  const mantras = [
+    `Hãy tin vào hành trình của chính bạn — mỗi bước đi đều có ý nghĩa.`,
+    `Bạn đã mang đủ sức mạnh bên trong — hãy để nó toả sáng.`,
+    `Vũ trụ luôn đứng về phía những ai dũng cảm lắng nghe bản thân.`,
+    `Hành trình của bạn là duy nhất — đừng so sánh, hãy tin tưởng.`,
+  ];
+  const mantra = mantras[Math.floor(Math.random() * mantras.length)];
+
+  setTimeout(() => {
+    const closing = document.createElement("div");
+    closing.className = "reading-closing";
+    closing.style.animation = "fadeInUp 0.6s ease both";
+    closing.innerHTML = `
+      <h3>✦ Đúc Kết &amp; Lời Nhắn</h3>
+      <p>${currentSpread.drawCount} lá bài vừa rồi vẽ nên bức tranh tổng thể về hành trình của bạn trong lĩnh vực <strong>${userInfo.topic}</strong>.
+      Hãy tin tưởng vào thông điệp mà lá <strong>${outCard.name}${outCard.isReversed ? " (Ngược)" : ""}</strong> chỉ ra ở cuối hành trình.</p>
+      <blockquote class="closing-mantra" id="mantra-quote"></blockquote>
+    `;
+    readingStandard.appendChild(closing);
+    const mantraEl = document.getElementById("mantra-quote");
+    typewriterEffect(mantraEl, `✦ ${mantra}`, 30, null);
+    sfxChime();
+  }, drawnCards.length * 800 + 600);
 }
+
 
 // AI reading via Gemini
 async function fetchGeminiReading() {
   const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiKey}`;
   const cardDesc=drawnCards.map((c,i)=>{
-    const pos=POSITIONS[i];
+    const pos=currentSpread.positions[i];
     const meanings=c.isReversed?c.meanings.shadow:c.meanings.light;
     const fortune=c.fortune_telling?c.fortune_telling.join(". "):"";
     return `Vị trí ${pos.num} "${pos.label}" (${pos.prompt}):\n- Lá bài: "${c.name}" — ${c.isReversed?"Ngược":"Xuôi"}\n- Từ khóa: ${c.keywords?c.keywords.join(", "):""}\n- Ý nghĩa gốc: ${meanings?meanings.join(". "):""}. ${fortune}`;
@@ -471,18 +851,18 @@ async function fetchGeminiReading() {
 
 Thông tin người dùng:
 - Tên: ${userInfo.name||"Ẩn danh"}
-- Ngày sinh: ${userInfo.dob||"không rõ"}
+- Ngày sinh: ${userInfo.dob ? userInfo.dob + " (Năm hiện tại là " + new Date().getFullYear() + ", hãy tính tuổi dựa trên năm này)" : "không rõ"}
 - Giới tính: ${userInfo.gender||"Không rõ"}
 - Chủ đề trải bài: ${userInfo.topic}
 - Câu hỏi / Mong muốn: "${userInfo.intent}"
 
-Trải bài "Chân Dung Vấn Đề" — 6 lá:
+Trải bài "${currentSpread.name}" — ${currentSpread.drawCount} lá:
 ${cardDesc}
 
 Hãy viết một bài luận giải liền mạch, sâu sắc, được cá nhân hóa theo đúng tên và hoàn cảnh người dùng. Cấu trúc:
 1. Lời mở đầu thấu cảm — gọi tên người dùng, kết nối chủ đề và trạng thái hiện tại (1 đoạn ngắn, ấm áp).
-2. Luận giải từng lá theo thứ tự I → VI — mỗi lá viết 2-3 câu, đặt đúng trong ngữ cảnh vị trí.
-3. Bức tranh toàn cảnh — kết nối cả 6 lá thành một câu chuyện liền mạch có đầu có cuối.
+2. Luận giải từng lá theo thứ tự — mỗi lá viết 2-3 câu, đặt đúng trong ngữ cảnh vị trí của trải bài.
+3. Bức tranh toàn cảnh — kết nối tất cả các lá bài thành một câu chuyện liền mạch có đầu có cuối.
 4. Lời khuyên hành động cụ thể và lời kết truyền cảm hứng.
 
 Dùng HTML (<h3>, <p>, <strong>, <em>). Không dùng markdown hay bullet list.`;
@@ -508,9 +888,10 @@ Dùng HTML (<h3>, <p>, <strong>, <em>). Không dùng markdown hay bullet list.`;
 //  CARD LIGHTBOX
 // ================================================================
 function renderSpread() {
+  spreadContainer.className="spread-container " + currentSpread.cssClass;
   spreadContainer.innerHTML="";
   drawnCards.forEach((card,i)=>{
-    const pos=POSITIONS[i];
+    const pos=currentSpread.positions[i];
     const wrapper=document.createElement("div");
     wrapper.className="tarot-wrapper";
     if(card.isReversed) wrapper.classList.add("card-reversed");
@@ -566,7 +947,8 @@ function openLightbox(card, pos, idx) {
   lightboxImg.src=IMG_BASE+card.img;
   lightboxImg.alt=card.name;
   lightboxPos.textContent=pos.num+" · "+pos.label+" — "+pos.desc;
-  lightboxName.textContent=card.name+(card.isReversed?" (Ngược)":"");
+  const reverseLabel = card.isReversed ? `<span style="color:var(--amber-lt); font-style:italic; font-size:0.85em; display:block; margin-top:5px;">(Trạng thái ngược - Năng lượng tiềm ẩn hoặc bị cản trở)</span>` : '';
+  lightboxName.innerHTML=`${card.name} ${reverseLabel}`;
   lightboxKw.textContent=card.keywords?"Từ khóa: "+card.keywords.join(", "):"";
   lightboxMeanings.textContent=meanings.slice(0,4).join(". ")+(meanings.length>0?".":"");
   if(card.isReversed) lightboxImg.style.transform="rotate(180deg)";
@@ -591,7 +973,59 @@ function goToStep(n) {
   window.scrollTo({top:0,behavior:"smooth"});
 }
 restartBtn.addEventListener("click",()=>{ intentInput.value=""; userInfo.intent=""; sfxTransition(); goToStep(1); });
-saveResultBtn.addEventListener("click",()=>showToast("📸 Dùng chức năng chụp màn hình của thiết bị."));
+saveResultBtn.addEventListener("click", async () => {
+  if (typeof htmlToImage === "undefined") {
+    showToast("❌ Chưa tải được thư viện xuất ảnh."); return;
+  }
+  // Show saving state
+  saveResultBtn.disabled = true;
+  const origHTML = saveResultBtn.innerHTML;
+  saveResultBtn.innerHTML = `<span style="opacity:0.7">Đang xuất ảnh…</span>`;
+
+  try {
+    const zone = document.getElementById("capture-zone");
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const blob = await htmlToImage.toBlob(zone, {
+      backgroundColor: bgColor,
+      pixelRatio: 2,
+    });
+
+    const filename = `mystic-tarot-${userInfo.name||"reading"}-${new Date().toISOString().slice(0,10)}.png`;
+
+    // Try File System Access API (Chrome/Edge — lets user pick folder)
+    if (window.showSaveFilePicker) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: filename,
+          types: [{ description: "PNG Image", accept: { "image/png": [".png"] } }],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        showToast("✦ Đã lưu kết quả thành công!");
+        return;
+      } catch(e) {
+        if (e.name === "AbortError") { return; } // user cancelled picker
+        // fallthrough to <a> download
+      }
+    }
+
+    // Fallback: trigger browser download
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("✦ Ảnh đã được tải xuống!");
+  } catch(e) {
+    console.error(e);
+    showToast("❌ Không thể xuất ảnh. Thử lại sau.");
+  } finally {
+    saveResultBtn.disabled = false;
+    saveResultBtn.innerHTML = origHTML;
+  }
+});
 
 // ================================================================
 //  TOAST
@@ -611,6 +1045,10 @@ async function init() {
     const res=await fetch(DATA_URL);
     const json=await res.json();
     tarotData=json.cards;
+    // Enable start button after loaded
+    const startText = startBtn.querySelector(".btn-text");
+    if (startText) startText.textContent = "Bắt Đầu Trải Bài";
+    startBtn.disabled = false;
   } catch(e) {
     console.error("Data load failed:",e);
     showToast("❌ Không tải được dữ liệu. Kiểm tra kết nối.");

@@ -7,8 +7,9 @@
     <meta name="description" content="Ứng dụng trải bài Tarot huyền bí với AI. Khám phá thông điệp từ vũ trụ dành riêng cho bạn.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
 </head>
 <body>
 
@@ -66,7 +67,7 @@
                     </div>
                     <div class="field-group">
                         <label>Giới Tính</label>
-                        <select id="settings-gender" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(212,139,58,0.22); border-radius:6px; color:#FFF4E8; font-family:'Outfit',sans-serif; font-size:0.95rem; font-weight:300; padding:0.75rem 1rem; outline:none; -webkit-appearance:none;">
+                        <select id="settings-gender" class="form-select">
                             <option value="Không rõ">Không rõ</option>
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
@@ -96,7 +97,39 @@
         </div>
     </div>
 
+    <!-- ============================================================
+         WELCOME CEREMONY OVERLAY (1.1)
+    ============================================================ -->
+    <div id="welcome-overlay" class="ceremony-overlay hidden" aria-modal="true" role="dialog">
+        <div class="ceremony-inner">
+            <div class="ceremony-sigil">✦</div>
+            <p id="welcome-line" class="ceremony-text"></p>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button id="welcome-skip-btn" class="icon-btn" style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">Bỏ qua</button>
+                <button id="welcome-ready-btn" class="btn-primary hidden" type="button">
+                    <span>Tôi Đã Sẵn Sàng</span>
+                    <span class="btn-glyph">🌙</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         BREATHING LOCK (1.2) — before shuffle
+    ============================================================ -->
+    <div id="breath-overlay" class="ceremony-overlay hidden" aria-modal="true" role="dialog">
+        <div class="ceremony-inner">
+            <div class="breath-circle" id="breath-circle">
+                <span id="breath-count">3</span>
+            </div>
+            <p class="ceremony-text" id="breath-text">Hãy hít thở sâu và tập trung vào câu hỏi của bạn...</p>
+            <p class="ceremony-sub">Bộ bài sẽ mở ra sau 3 hơi thở</p>
+            <button id="breath-skip-btn" class="icon-btn" style="color: rgba(255,255,255,0.4); font-size: 0.85rem; margin-top: 1rem;">Bỏ qua nghi thức</button>
+        </div>
+    </div>
+
     <!-- MAIN APP -->
+
     <main id="app-main">
 
         <!-- STEP 1: ONBOARDING -->
@@ -130,7 +163,14 @@
                     <p class="brand-subtitle">Lắng nghe thông điệp từ vũ trụ</p>
                 </div>
 
-                <div class="onboard-form glass-panel">
+                <div class="onboard-form paper-style">
+                    <svg width="0" height="0" style="position:absolute;">
+                        <filter id="torn-paper">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
+                            <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+                        </filter>
+                    </svg>
+                    <div class="paper-bg"></div>
                     <div class="field-group">
                         <label for="user-name">Tên của bạn</label>
                         <input type="text" id="user-name" placeholder="Nhập tên hoặc biệt danh...">
@@ -141,21 +181,29 @@
                     </div>
                     <div class="field-group">
                         <label>Chủ đề trải bài</label>
-                        <div class="pills-row" id="topic-pills">
-                            <button class="pill active" data-value="Tình yêu" type="button">💜 Tình yêu</button>
-                            <button class="pill" data-value="Sự nghiệp" type="button">⚡ Sự nghiệp</button>
-                            <button class="pill" data-value="Tài chính" type="button">✨ Tài chính</button>
-                            <button class="pill" data-value="Phát triển bản thân" type="button">🌙 Bản thân</button>
-                            <button class="pill" data-value="Tổng quan" type="button">🔮 Tổng quan</button>
+                        <div class="checklist-row" id="topic-pills">
+                            <button class="pill active" data-value="Tình yêu" type="button">Tình yêu</button>
+                            <button class="pill" data-value="Sự nghiệp" type="button">Sự nghiệp</button>
+                            <button class="pill" data-value="Tài chính" type="button">Tài chính</button>
+                            <button class="pill" data-value="Phát triển bản thân" type="button">Bản thân</button>
+                            <button class="pill" data-value="Tổng quan" type="button">Tổng quan</button>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label>Kiểu trải bài</label>
+                        <div class="checklist-row" id="spread-pills">
+                            <button class="pill" data-value="3-card" type="button">3 Lá (Quá khứ - Hiện tại - Tương lai)</button>
+                            <button class="pill active" data-value="6-card" type="button">6 Lá (Chân Dung Vấn Đề)</button>
+                            <button class="pill" data-value="10-card" type="button">10 Lá (Celtic Cross)</button>
                         </div>
                     </div>
                     <div class="field-group">
                         <label for="intent">Câu hỏi / Điều bạn đang trăn trở</label>
                         <textarea id="intent" rows="3" placeholder="Vũ trụ đang lắng nghe bạn..."></textarea>
                     </div>
-                    <button id="start-btn" class="btn-primary btn-full" type="button">
-                        <span>Bắt Đầu Trải Bài</span>
-                        <span class="btn-glyph">✦</span>
+                    <button id="start-btn" class="btn-primary btn-full" type="button" disabled>
+                        <span class="btn-text">⏳ Đang tải...</span>
+                        <span class="btn-glyph">✨</span>
                     </button>
                 </div>
             </div>
@@ -181,8 +229,8 @@
                         <div class="deck-pile-card">✦</div>
                         <div class="deck-pile-card">✦</div>
                     </div>
-                    <p class="shuffle-hint">Hãy hít thở sâu và tập trung vào câu hỏi của bạn</p>
-                    <button class="btn-shuffle" id="shuffle-btn" type="button">
+                    <p class="shuffle-hint" id="shuffle-ticker">Hãy hít thở sâu và tập trung vào câu hỏi của bạn...</p>
+                    <button class="btn-primary" id="shuffle-btn" type="button">
                         <span>🌀</span> <span>Xào Bài</span>
                     </button>
                 </div>
@@ -193,7 +241,9 @@
                     <div class="spread-slots" id="spread-slots"></div>
                 </div>
 
-                <div id="deck-container" class="deck-container hidden"></div>
+                <div id="deck-container" class="deck-container hidden">
+                    <div id="carousel-ring" class="carousel-ring"></div>
+                </div>
                 <button id="reveal-btn" class="btn-primary btn-reveal hidden" type="button">
                     <span>Lật Bài & Nhận Thông Điệp</span>
                     <span class="btn-glyph">🔮</span>
@@ -209,37 +259,50 @@
                     <h2 class="step-title" id="result-title">Dành Cho Bạn</h2>
                     <div id="user-info-summary" class="summary-chip"></div>
                 </div>
-                <div id="spread-container" class="spread-container"></div>
-                <div id="reading-result" class="reading-panel glass-panel">
-                    <!-- Tab switcher -->
-                    <div class="reading-tabs" id="reading-tabs">
-                        <button class="reading-tab active" data-pane="standard" type="button">Giải Nghĩa</button>
-                        <button class="reading-tab" data-pane="ai" id="ai-tab-btn" disabled type="button">✦ AI Enhanced</button>
-                    </div>
-                    <!-- Standard pane -->
-                    <div id="reading-standard" class="reading-pane reading-content"></div>
-                    <!-- AI pane -->
-                    <div id="reading-ai" class="reading-pane reading-content hidden"></div>
-                    <!-- Loading -->
-                    <div class="loading-state hidden" id="ai-loading">
-                        <div class="loading-orb"></div>
-                        <p>Vũ trụ đang kết nối…</p>
-                    </div>
-                    <!-- AI Generate CTA -->
-                    <div class="ai-gen-area" id="ai-gen-area">
-                        <p class="ai-gen-desc" id="ai-gen-desc">Nhập Gemini API Key trong Cài Đặt để nhận luận giải sâu hơn từ AI.</p>
-                        <button id="gen-ai-btn" class="btn-gen-ai" type="button">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                            <span id="gen-ai-label">Khám Phá Giải Nghĩa AI</span>
-                        </button>
+                <!-- capture-zone: spread + reading panel -->
+                <div id="capture-zone">
+                    <div id="spread-container" class="spread-container"></div>
+                    <div id="reading-result" class="reading-panel glass-panel">
+                        <!-- Tab switcher -->
+                        <div class="reading-tabs" id="reading-tabs">
+                            <button class="reading-tab active" data-pane="standard" type="button">Giải Nghĩa</button>
+                            <button class="reading-tab" data-pane="ai" id="ai-tab-btn" disabled type="button">✦ AI Enhanced</button>
+                        </div>
+                        <!-- Standard pane -->
+                        <div id="reading-standard" class="reading-pane reading-content"></div>
+                        <!-- AI pane -->
+                        <div id="reading-ai" class="reading-pane reading-content hidden"></div>
+                        <!-- Loading -->
+                        <div class="loading-state hidden" id="ai-loading">
+                            <div class="loading-orb"></div>
+                            <p>Vũ trụ đang kết nối…</p>
+                        </div>
+                        <!-- AI Generate CTA -->
+                        <div class="ai-gen-area" id="ai-gen-area">
+                            <p class="ai-gen-desc" id="ai-gen-desc">Nhập Gemini API Key trong Cài Đặt để nhận luận giải sâu hơn từ AI.</p>
+                            <button id="gen-ai-btn" class="btn-primary" type="button">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                                <span id="gen-ai-label">Khám Phá Giải Nghĩa AI</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="result-actions">
-                    <button id="restart-btn" class="btn-secondary" type="button">✦ Trải Bài Mới</button>
-                    <button id="save-result-btn" class="btn-primary" type="button">Lưu Kết Quả</button>
+                    <button id="restart-btn" class="btn-primary" type="button">✦ Trải Bài Mới</button>
+                    <button id="save-result-btn" class="btn-primary" type="button">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Lưu Kết Quả
+                    </button>
                 </div>
             </div>
         </section>
+
+        <!-- Breathe Moment Overlay -->
+        <div id="breathe-overlay" class="breathe-overlay hidden">
+            <div class="breathe-circle"></div>
+            <p class="breathe-text">Hãy hít một hơi thật sâu...</p>
+            <p class="breathe-subtext">Vũ trụ đang kết nối với năng lượng của bạn</p>
+        </div>
 
     </main>
 
